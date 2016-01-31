@@ -16,9 +16,16 @@ function CartController(){
   this.name = "My BɼokƏn Cart!";
   
   this.getCartCount = function(){
-    //return the length of our cart
+    return this.cart.length
   };
   
+  this.calculateCartTotal = function() {
+      var totalCost = 0;
+      for (var i = 0; i < this.getCartCount(); i++) {   
+          totalCost=+ this.cart[i].price * this.cart[i].quantity   
+      }
+      return totalCost;
+  };
   /*
   * Write a calculateCartTotal function
   * make it assesible to our view
@@ -28,6 +35,13 @@ function CartController(){
   
   
   this.removeItemFromCart = function(item){
+      
+      for (var i = 0; i < this.getCartCount(); i++) {
+          if (this.cart[i].name === item.name) {
+              this.cart.splice(i,1);
+          }
+      }
+     
     //Item gets passed in from our view when the user clicks the x button
     /*
     * This function should be able to remove the passed in item
@@ -41,14 +55,18 @@ function CartController(){
       //item gets passed in to this function from the view
       
       /*
-      Our cart demands that items being added to it must have the following properties
+      Our cart demands that items being added to it must have the following properties */
+
       var newItem = {
-        name:'',
-        color:'',
-        size: '',
+        name:item.name,
+        color:item.selectedColor,
+        size:item.selectedSize,
         quantity: 1,
-        price:'',
+        price:item.price,
       }
+      
+      this.cart.push(newItem);
+      /*
       console.log the item being passed in from the view 
       to figure out which properties from item need to be 
       remaped to the newItem object. 
